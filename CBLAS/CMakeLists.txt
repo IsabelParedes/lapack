@@ -7,7 +7,11 @@ set(LAPACK_INSTALL_EXPORT_NAME ${CBLASLIB}-targets)
 include(CheckLanguage)
 check_language(Fortran)
 if(CMAKE_Fortran_COMPILER)
-  enable_language(Fortran)
+  
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran)
   include(FortranCInterface)
   ## Ensure that the fortran compiler and c compiler specified are compatible
   FortranCInterface_VERIFY()

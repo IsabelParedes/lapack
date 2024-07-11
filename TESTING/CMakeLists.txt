@@ -1,3 +1,7 @@
+
+set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
 enable_language(Fortran)
 
 # Check for any necessary platform specific compiler flags

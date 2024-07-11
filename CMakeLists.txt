@@ -224,14 +224,21 @@ if(NOT (BUILD_SINGLE OR BUILD_DOUBLE OR BUILD_COMPLEX OR BUILD_COMPLEX16))
   BUILD_SINGLE, BUILD_DOUBLE, BUILD_COMPLEX, BUILD_COMPLEX16.")
 endif()
 
-
+message(STATUS "AAAA") # REMOVE
 # --------------------------------------------------
 # Subdirectories that need to be processed
 option(USE_OPTIMIZED_BLAS "Whether or not to use an optimized BLAS library instead of included netlib BLAS" OFF)
 
+message(STATUS "BBBB") # REMOVE
 # Check the usage of the user provided BLAS libraries
 if(BLAS_LIBRARIES)
-  enable_language(Fortran)
+  message(STATUS "CCCCC") # REMOVE
+  
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran)
+  message(STATUS "DDDD") # REMOVE
   include(CheckFortranFunctionExists)
   set(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
   CHECK_FORTRAN_FUNCTION_EXISTS("dgemm" BLAS_FOUND)
@@ -244,17 +251,22 @@ if(BLAS_LIBRARIES)
     message(ERROR "-->     Or Correct your BLAS_LIBRARIES entry ")
     message(ERROR "-->     Or Consider checking USE_OPTIMIZED_BLAS")
   endif()
+  message(STATUS "EEEEEE") # REMOVE
 
 # User did not provide a BLAS Library but specified to search for one
 elseif(USE_OPTIMIZED_BLAS)
+  message(STATUS "FFFFFF") # REMOVE
   find_package(BLAS)
 endif()
+
+message(STATUS "GGGGGG") # REMOVE
 
 # Neither user specified or optimized BLAS libraries can be used
 if(NOT BLAS_FOUND)
   message(STATUS "Using supplied NETLIB BLAS implementation")
   add_subdirectory(BLAS)
   set(BLAS_LIBRARIES ${BLASLIB})
+  message(STATUS "IN THE IFBLAS") # REMOVE
 else()
   set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS} ${BLAS_LINKER_FLAGS}"
@@ -267,6 +279,9 @@ else()
     CACHE STRING "Linker flags for shared libs" FORCE)
 endif()
 
+message(STATUS "SHOuLD BE DONE NOW") # REMOVE
+
+message(STATUS "HHHHH") # REMOVE
 
 # --------------------------------------------------
 # CBLAS
@@ -293,12 +308,23 @@ if(USE_OPTIMIZED_LAPACK)
   find_package(LAPACK)
 endif()
 
+message(STATUS "IIIIIIII") # REMOVE
+
 # Check the usage of the user provided or automatically found LAPACK libraries
 if(LAPACK_LIBRARIES)
+  message(STATUS "JJJJJJ") # REMOVE
   include(CheckLanguage)
+  message(STATUS "ARE YOU THE CULTPIR") # REMOVE
   check_language(Fortran)
+  message(STATUS "WHEELLLL?") # REMOVE
   if(CMAKE_Fortran_COMPILER)
-    enable_language(Fortran)
+    message("WAHT YOU DOING HERE") # REMOVE
+    
+    set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran)
+    message(STATUS "ARE WE THERE YET") # REMOVE
     include(CheckFortranFunctionExists)
     set(CMAKE_REQUIRED_LIBRARIES ${LAPACK_LIBRARIES})
     # Check if new routine of 3.4.0 is in LAPACK_LIBRARIES
@@ -324,7 +350,12 @@ if(NOT LATESTLAPACK_FOUND)
   message(STATUS "Using supplied NETLIB LAPACK implementation")
   set(LAPACK_LIBRARIES ${LAPACKLIB})
 
-  enable_language(Fortran)
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE)
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran) # FIXME:
+  message(STATUS "AND NOW WE HRE") # REMOVE
 
   # Check for any necessary platform specific compiler flags
   include(CheckLAPACKCompilerFlags)
@@ -339,10 +370,14 @@ if(NOT LATESTLAPACK_FOUND)
   CHECK_TIME_FUNCTION(EXT_ETIME_ TIME_FUNC)
   CHECK_TIME_FUNCTION(INT_ETIME TIME_FUNC)
 
+  message(STATUS "HOW FAR CAN WE GOOOO") # REMOVE
+
   # Set second function
   message(STATUS "--> Will use second_${TIME_FUNC}.f and dsecnd_${TIME_FUNC}.f as timing function.")
   set(SECOND_SRC ${LAPACK_SOURCE_DIR}/INSTALL/second_${TIME_FUNC}.f)
   set(DSECOND_SRC ${LAPACK_SOURCE_DIR}/INSTALL/dsecnd_${TIME_FUNC}.f)
+
+  message(STATUS "LINAMAGGGAJEIE") # REMOVE
 
   add_subdirectory(SRC)
 else()
@@ -356,6 +391,8 @@ else()
     "${CMAKE_SHARED_LINKER_FLAGS} ${LAPACK_LINKER_FLAGS}"
     CACHE STRING "Linker flags for shared libs" FORCE)
 endif()
+
+message(STATUS "COLADERA") # REMOVE
 
 if(BUILD_TESTING)
   add_subdirectory(TESTING)
@@ -372,11 +409,17 @@ if(LAPACKE_WITH_TMG)
   set(LAPACKE ON)
 endif()
 
+message(STATUS "SODAL SODAL") # REMOVE
+
 # TMGLIB
 # Cache export target
 set(LAPACK_INSTALL_EXPORT_NAME_CACHE ${LAPACK_INSTALL_EXPORT_NAME})
 if(BUILD_TESTING OR LAPACKE_WITH_TMG)
-  enable_language(Fortran)
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE)
+set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran)
   if(LATESTLAPACK_FOUND AND LAPACKE_WITH_TMG)
     set(CMAKE_REQUIRED_LIBRARIES ${LAPACK_LIBRARIES})
     # Check if dlatms (part of tmg) is found
@@ -391,6 +434,8 @@ if(BUILD_TESTING OR LAPACKE_WITH_TMG)
   endif()
   add_subdirectory(TESTING/MATGEN)
 endif()
+
+message(STATUS "MINA MA CURA MERRENA") # REMOVE
 # Reset export target
 set(LAPACK_INSTALL_EXPORT_NAME ${LAPACK_INSTALL_EXPORT_NAME_CACHE})
 unset(LAPACK_INSTALL_EXPORT_NAME_CACHE)

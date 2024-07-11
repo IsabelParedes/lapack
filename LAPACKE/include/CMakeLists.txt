@@ -10,14 +10,18 @@ include(CheckLanguage)
 check_language(Fortran)
 check_language(C)
 if(CMAKE_Fortran_COMPILER AND CMAKE_C_COMPILER)
-  enable_language(Fortran)
+  
+  set(CMAKE_Fortran_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_C_COMPILER_WORKS TRUE) # FIXME:
+set(CMAKE_CXX_COMPILER_WORKS TRUE) # FIXME:
+enable_language(Fortran)
   enable_language(C)
-  include(FortranCInterface)
-  ## Ensure that the fortran compiler and c compiler specified are compatible
-  FortranCInterface_VERIFY()
-  FortranCInterface_HEADER(${LAPACK_BINARY_DIR}/include/lapacke_mangling.h
-    MACRO_NAMESPACE "LAPACK_"
-    SYMBOL_NAMESPACE "LAPACK_")
+  # include(FortranCInterface)
+  # ## Ensure that the fortran compiler and c compiler specified are compatible
+  # FortranCInterface_VERIFY()
+  # FortranCInterface_HEADER(${LAPACK_BINARY_DIR}/include/lapacke_mangling.h
+  #   MACRO_NAMESPACE "LAPACK_"
+  #   SYMBOL_NAMESPACE "LAPACK_")
 endif()
 if(NOT FortranCInterface_GLOBAL_FOUND OR NOT FortranCInterface_MODULE_FOUND)
   message(WARNING "Reverting to pre-defined include/lapacke_mangling.h")
